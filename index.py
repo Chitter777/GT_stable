@@ -39,7 +39,7 @@ class Login(commands.Bot):
             embed.add_field(name="Название:", value=f"`{guild.name}`", inline=True)
             embed.add_field(name="Сервер создан:", value= f"<t:{str(guild.created_at.timestamp() * 1000) [:-5]}:F>", inline=True)
             try:
-                own = await self.fetch_user(guild.owner_id)
+                own = await self.bot.fetch_user(guild.owner_id)
                 embed.add_field(name="Владелец:", value=f"{own.mention}({own.id})", inline=True)
             except:
                 embed.add_field(name="Владелец:", value="`Отсутствует`", inline=True)
