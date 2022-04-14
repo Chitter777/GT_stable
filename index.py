@@ -29,7 +29,7 @@ class Login(commands.Bot):
 
     async def on_guild_join(self, guild):
         log = self.get_channel(847748996302241792)
-        if log != None:
+        if log is not None:
             embed = disnake.Embed(
                 title="Бот был добавлен на сервер",
                 color=0x57F287
