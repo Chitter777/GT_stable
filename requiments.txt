@@ -1,0 +1,8 @@
+brawlstars==0.3.1
+brawlstats==4.1.1
+DateTime==4.4
+disnake==2.4.0
+Pillow==9.0.1
+requests==2.27.1
+python-dotenv=0.20.0
+async-timeout==3.0.1

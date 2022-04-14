@@ -1,0 +1,6 @@
+
+bsdb.sqbpro
+*.pyc
+cogs/__pycache__/
+.idea/
+.env
