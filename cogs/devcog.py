@@ -60,7 +60,7 @@ class devcog(commands.Cog):
                         title=f"Участник {user.name} был заблокирован.",
                         color = 0xFEE75C
                     )
-                    if user.avatar.url != None:
+                    if user.avatar.url is not None:
                             embed_log.set_thumbnail(url=user.avatar.url)
                     embed_log.add_field(name="ID заблокированного:", value=f"`{user.id}`", inline=False)
                     embed_log.add_field(name="Причина:", value=f"`{message}`")

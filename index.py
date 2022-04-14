@@ -59,6 +59,14 @@ class Login(commands.Bot):
         embed.set_footer(text=f"ID сервера: {guild.id}")
         await log.send(embed=embed)
 
+    async def on_slash_command_error(self, inter, error):
+        embed = disnake.Embed(
+            title="Произошла ошибка",
+            color=0xED4245
+        )
+        embed.add_field(name="Код ошибки:", value = f"```{error}```")
+        inter.send(embed=embed)
+
 
 client = Login()
 
