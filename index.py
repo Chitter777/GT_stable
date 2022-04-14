@@ -34,12 +34,12 @@ class Login(commands.Bot):
                 title="Бот был добавлен на сервер",
                 color=0x57F287
             )
-            if guild.icon.url != None:
+            if guild.icon.url is not None:
                 embed.set_thumbnail(url=guild.icon.url)
             embed.add_field(name="Название:", value=f"`{guild.name}`", inline=True)
             embed.add_field(name="Сервер создан:", value= f"<t:{str(guild.created_at.timestamp() * 1000) [:-5]}:F>", inline=True)
             try:
-                own = guild.owner
+                own = await self.fetch_user(guild.owner_id)
                 embed.add_field(name="Владелец:", value=f"{own.mention}({own.id})", inline=True)
             except:
                 embed.add_field(name="Владелец:", value="`Отсутствует`", inline=True)
