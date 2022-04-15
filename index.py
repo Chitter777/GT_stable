@@ -3,6 +3,7 @@ from disnake.ext import commands
 import sqlite3
 import os
 import http.client
+import time
 
 botname = "Galka's tournaments"
 
