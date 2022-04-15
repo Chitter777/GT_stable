@@ -74,26 +74,25 @@ class profile(commands.Cog):
                 tag = None
             embed = disnake.Embed(description="Информация об участнике:", color=0x5865F2)
             embed.set_author(name=f"Профиль {user.name}#{user.discriminator}", icon_url=user.avatar)
-            img = Image.new('RGBA', (900, 200), '#5865F2')
-            avatar = str(user.avatar)[:-10]
-            response = requests.get(avatar, stream = True)
-            response = Image.open(io.BytesIO(response.content))
-            response = response.convert('RGBA')
-            response = response.resize((160, 160), Image.ANTIALIAS)
-            img.paste(response, (20, 20, 180, 180))
-            idraw = ImageDraw.Draw(img)
-            name = user.name
-            disc = user.discriminator
-            headline = ImageFont.truetype('arial.ttf', size=36)
-            undertext = ImageFont.truetype('arial.ttf', size=24)
-            idraw.text((210, 50), f"{name}#{disc}", font=headline)
+            #img = Image.new('RGBA', (900, 200), '#5865F2')
+            #avatar = str(user.avatar)[:-10]
+            #response = requests.get(avatar, stream = True)
+            #response = Image.open(io.BytesIO(response.content))
+            #response = response.convert('RGBA')
+            #response = response.resize((160, 160), Image.ANTIALIAS)
+            #img.paste(response, (20, 20, 180, 180))
+            #idraw = ImageDraw.Draw(img)
+            #name = user.name
+            #disc = user.discriminator
+            #headline = ImageFont.truetype('arial.ttf', size=36)
+            #undertext = ImageFont.truetype('arial.ttf', size=24)
+            #idraw.text((210, 50), f"{name}#{disc}", font=headline)
             #if teamId != None:
             #    idraw.text((180, 25), f"Команда {teamna}", font=undertext)
-            img.save('user_card.png')
+            #img.save('user_card.png')
 
-            embed.set_image(file = disnake.File("user_card.png"))
+            #embed.set_image(file = disnake.File("user_card.png"))
 
-            #dt =
             dr = user.created_at
             drts = str(dr.timestamp() * 1000)
             embed.add_field(name="Информация об аккаунте Discord:", value=f"Дата регистрации: <t:{drts[:-5]}:f>(<t:{drts[:-5]}:R>)", inline=True)

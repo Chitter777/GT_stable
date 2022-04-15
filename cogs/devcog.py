@@ -118,7 +118,7 @@ class devcog(commands.Cog):
                 maint_end = maint_start + arg3
                 log = self.bot.get_channel(847748996302241792)
                 update = self.bot.get_channel(955850230472007701)
-                #dev1 = self.bot.get_user(450229150217797633)
+                dev1 = await self.bot.get_user(450229150217797633)
                 embed_info = disnake.Embed(
                     title="Объявлено техническое обслуживание!",
                     description="Боту сейчас необходимо техническое обслуживание. В это время бот будет недоступен.",
@@ -138,6 +138,7 @@ class devcog(commands.Cog):
                 embed_log.set_footer(text=f"Разработчик: {ctx.author} ({ctx.author.id})", icon_url=ctx.author.avatar.url)
                 await ctx.send(embed=embed_info, delete_after=30)
                 await log.send(embed=embed_log)
+                await dev1.send(embed=embed_log)
                 message = await update.send("<@&926846261355761745>, важное уведомление!", embed=embed_info)
                 await message.add_reaction("✅")
         else:
