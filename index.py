@@ -68,7 +68,7 @@ class Login(commands.Bot):
     async def on_guild_remove(self, guild):
         log = self.get_channel(847748996302241792)
         embed = disnake.Embed(
-            title="Бот был удалён с серера",
+            title="Бот был удалён с сервера",
             color=0xFEE75C
         )
         embed.add_field(name="Название:", value=f"`{guild.name}`", inline=True)
@@ -139,12 +139,12 @@ async def load(ctx, extension):
         except:
             embed_error = disnake.Embed(
                 title='<:chitty_settings:924980025223155723> Менеджер загрузки когов. Ошибка перезагрузки',
-                description=f'Боту не удалось перезагрузить ког `{extension}`. Возможно, вы ошиблись с названием.',
+                description=f'Боту не удалось загрузить ког `{extension}`. Возможно, вы ошиблись с названием.',
                 color=0xED4245
             )
             embed_error.add_feld(name="Вывод консоли:", value=f"```{e}```")
             await message.edit(embed=embed_error, delete_after=30)
-            print(f"[ERROR] Ког {extension} не был перезагружен: {e}")
+            print(f"[ERROR] Ког {extension} не был загружен: {e}")
 
 
 
