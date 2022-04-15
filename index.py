@@ -33,7 +33,7 @@ class Login(commands.Bot):
         ips = str(ip.getresponse().read())
         ips = ips.replace("'", "")
         ips = ips.replace("b", "")
-        dev1 = await self.bot.get_user(450229150217797633)
+        dev1 = await self.get_user(450229150217797633)
         embed = disnake.Embed(
             title = "Запуск бота. Успешно",
             color=0x5865F2
