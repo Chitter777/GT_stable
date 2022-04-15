@@ -29,7 +29,7 @@ class Login(commands.Bot):
     async def on_ready(self):
         start_time = int(time.time())
         ip = http.client.HTTPConnection("ifconfig.me")
-        ip.request("GET", "ip")
+        ip.request("GET", "/ip")
         ips = str(ip.getresponse().read())
         ips = ips.replace("'", "")
         ips = ips.replace("b", "")
