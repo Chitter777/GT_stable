@@ -118,7 +118,7 @@ class devcog(commands.Cog):
                 maint_end = maint_start + arg3
                 log = self.bot.get_channel(847748996302241792)
                 update = self.bot.get_channel(955850230472007701)
-                dev1 = await self.bot.get_user(450229150217797633)
+                dev1 = await self.bot.fetch_user(450229150217797633)
                 embed_info = disnake.Embed(
                     title="Объявлено техническое обслуживание!",
                     description="Боту сейчас необходимо техническое обслуживание. В это время бот будет недоступен.",
