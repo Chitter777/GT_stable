@@ -14,7 +14,6 @@ class devcog(commands.Cog):
     @commands.command()
     async def icons(self, ctx, user: disnake.User, icons):
         if ctx.author.id in developers:
-            # id = user.id
             con = sqlite3.connect('bsdb.db')
             cur = con.cursor()
             try:
@@ -90,7 +89,7 @@ class devcog(commands.Cog):
                     title=f"Участник {user.name} был разблокирован.",
                     color=0x57F287
                 )
-                if user.avatar.url != None:
+                if user.avatar.url is not None:
                     embed_log.set_thumbnail(url=user.avatar.url)
                 embed_log.add_field(name="Время снятия блокировки:", value=f"<t:{int(time.time())}:F>(<t:{int(time.time())}:R>)")
                 embed_log.set_footer(text=f"Модератор: {ctx.author} ({ctx.author.id})", icon_url=ctx.author.avatar.url)
@@ -128,8 +127,8 @@ class devcog(commands.Cog):
                     color=0x5865F2
                 )
                 embed_log.set_thumbnail(url="https://cdn.discordapp.com/attachments/952169641801834546/955801105663664168/4323-blurple-verified-bot-developer.png")
-                embed_log.add_field(name="Начало обслуживания:", value=f"<t:{maint_start}:F>(<t:{maint_start}:R>)", inline=True)
-                embed_log.add_field(name="Конец обслуживания:", value=f"<t:{maint_end}:F>(<t:{maint_end}:R>)", inline=True)
+                embed_log.add_field(name="Время начала обслуживания:", value=f"<t:{maint_start}:F>(<t:{maint_start}:R>)", inline=True)
+                embed_log.add_field(name="Примерное время окончания обслуживания:", value=f"<t:{maint_end}:F>(<t:{maint_end}:R>)", inline=True)
                 embed_log.set_footer(text=f"Разработчик: {ctx.author} ({ctx.author.id})", icon_url=ctx.author.avatar.url)
                 await ctx.send(embed=embed_info, delete_after=30)
                 await log.send(embed=embed_log)
