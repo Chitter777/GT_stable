@@ -32,22 +32,24 @@ class profile(commands.Cog):
         pass
 
 
-    @commands.slash_command(name='профиль', description="Команда для просмотра профиля")
+    @commands.slash_command(name='профиль', description="Просмотреть свой или чей-нибудь профиля")
     async def profile(self, inter, user: disnake.User = commands.Param(lambda inter: inter.author, name='юзер', description="Выберите пользователя, чей профиль вы хотите получить")):
         con = sqlite3.connect('bsdb.db')
         cur = con.cursor()
         try:
-            banReason, teamId, = cur.execute(f"SELECT banReason, teamId FROM usersd WHERE id = '{inter.author.id}'").fetchone()
+            banReason, = cur.execute("SELECT banReason FROM usersd WHERE id == ?", (inter.author.id,)).fetchone()
         except:
             banReason = None
+        try:
+            teamId, = cur.execute("SELECT teamId FROM usersd WHERE id == ?", (inter.author.id,)).fetchone()
+        except:
             teamId = None
-        if banReason != None:
+        if banReason is not None:
             embed = disnake.Embed(
                 title=":no_entry_sign: Отказ в обслуживании",
                 description=f"Вам отказано в обслуживании!",
                 color=0xED4245
             )
-            #embed.set_thumbnail(url="")
             embed.add_field(name="Причина отказа:", value=f"{banReason}")
             embed.set_footer(text="Решение о блокировке обжалованию не подлежит!")
             await inter.send(embed=embed, ephemeral=True)
@@ -64,7 +66,7 @@ class profile(commands.Cog):
             icons = None
             banReason = None
             try:
-                icons, banReason, = cur.execute(f"SELECT icons, banReason FROM usersd WHERE id = '{user.id}'").fetchone()
+                icons, banReason, = cur.execute(f"SELECT icons, banReason FROM usersd WHERE id == ?", (user.id,)).fetchone()
             except:
                 cur.execute("INSERT INTO usersd VALUES(?, ?, ?, ?, ?, ?)", (user.id, None, '0000', 0, None, 3))
                 con.commit()
@@ -74,30 +76,32 @@ class profile(commands.Cog):
                 tag = None
             embed = disnake.Embed(description="Информация об участнике:", color=0x5865F2)
             embed.set_author(name=f"Профиль {user.name}#{user.discriminator}", icon_url=user.avatar)
-            #img = Image.new('RGBA', (900, 200), '#5865F2')
-            #avatar = str(user.avatar)[:-10]
-            #response = requests.get(avatar, stream = True)
-            #response = Image.open(io.BytesIO(response.content))
-            #response = response.convert('RGBA')
-            #response = response.resize((160, 160), Image.ANTIALIAS)
-            #img.paste(response, (20, 20, 180, 180))
-            #idraw = ImageDraw.Draw(img)
-            #name = user.name
+            img = Image.new('RGBA', (900, 200), '#5865F2')
+            avatar = str(user.avatar)[:-10]
+            response = requests.get(avatar, stream = True)
+            response = Image.open(io.BytesIO(response.content))
+            response = response.convert('RGBA')
+            response = response.resize((160, 160), Image.ANTIALIAS)
+            img.paste(response, (20, 20, 180, 180))
+            idraw = ImageDraw.Draw(img)
+            if user.nick is not None:
+                name = user.nick
+            else:
+                name = user.name
             #disc = user.discriminator
-            #headline = ImageFont.truetype('arial.ttf', size=36)
-            #undertext = ImageFont.truetype('arial.ttf', size=24)
-            #idraw.text((210, 50), f"{name}#{disc}", font=headline)
+            headline = ImageFont.truetype('Pusia-Bold.ttf', size=36)
+            undertext = ImageFont.truetype('Pusia-Bold.ttf', size=24)
+            # idraw.text((210, 50), f"{name}#{disc}", font=headline)
+            idraw.text((210, 50), f"{name}", font=headline)
             #if teamId != None:
             #    idraw.text((180, 25), f"Команда {teamna}", font=undertext)
-            #img.save('user_card.png')
-
-            #embed.set_image(file = disnake.File("user_card.png"))
-
+            img.save('user_card.png')
+            embed.set_image(file = disnake.File("user_card.png"))
             dr = user.created_at
             drts = str(dr.timestamp() * 1000)
             embed.add_field(name="Информация об аккаунте Discord:", value=f"Дата регистрации: <t:{drts[:-5]}:f>(<t:{drts[:-5]}:R>)", inline=True)
 
-            if tag != None:
+            if tag is not None:
                 try:
                     player = client.get_profile(tag)
                     embed.add_field(name="<:bsinfo:957947143153397760> Информация об аккаунте Brawl Stars:", value=f"Никнейм: `{player.name}`\nТэг: `{tag}`\nКоличество трофеев: `{player.trophies}/{player.highest_trophies}`\nБойцов: `{str(len(player.brawlers))}/55`", inline=False)
@@ -120,29 +124,14 @@ class profile(commands.Cog):
                 embed.add_field(name="Значки:", value=icons, inline=False)
             else:
                 pass
-            if banReason != None:
+            if banReason is not None:
                 embed.add_field(name="<:isBlocked:957961543910326284> Причина блокировки доступа:", value=banReason, inline=True)
-            teamname0 = None
-            teamname1 = None
-            teamname2 = None
-            teamname3 = None
             try:
-                teamname0, = cur.execute(f"SELECT teamname FROM teams WHERE capitain = '{user.id}'")
-                teamname1, = cur.execute(f"SELECT teamname FROM teams WHERE member1 = '{user.id}'")
-                teamname2, = cur.execute(f"SELECT teamname FROM teams WHERE member2 = '{user.id}'")
-                teamname3, = cur.execute(f"SELECT teamname FROM teams WHERE member3 = '{user.id}'")
-            except:
-                pass
-            if teamname0 != None:
-                embed.add_field(name="<:chitty_members:924981240875069480> В команде:", value=f"{''.join(teamname0)}", inline=True)
-            elif teamname1 != None:
-                embed.add_field(name="<:chitty_members:924981240875069480> В команде:", value=f"{''.join(teamname1)}", inline=True)
-            elif teamname2 != None:
-                embed.add_field(name="<:chitty_members:924981240875069480> В команде:", value=f"{''.join(teamname2)}", inline=True)
-            elif teamname3 != None:
-                embed.add_field(name="<:chitty_members:924981240875069480> В команде:", value=f"{''.join(teamname3)}", inline=True)
-            # else:
-            #    embed.add_field(name="<:chitty_members:924981240875069480> В команде:", value="**Не в команде** <:abs_denide_mark:805317617840947200>", inline=True)            con.close()
+                teamname, = cur.execute("SELECT teamname FROM teams WHERE id == ?", (teamId,)).fetchone()
+                embed.add_field(name="В команде:", value=f"{teamname}", inline=True)
+            except Exception as e:
+                print(e)
+            con.close()
             embed.set_footer(text = f"ID участника: {user.id}")
             await inter.send(embed=embed)
 
@@ -151,12 +140,14 @@ class profile(commands.Cog):
         con = sqlite3.connect('bsdb.db')
         cur = con.cursor()
         try:
-            banReason, teamId, = cur.execute(
-                f"SELECT banReason, teamId FROM usersd WHERE id = '{inter.author.id}'").fetchone()
+            banReason, = cur.execute(f"SELECT banReason FROM usersd WHERE id = '{inter.author.id}'").fetchone()
         except:
             banReason = None
+        try:
+            teamId, = cur.execute(f"SELECT teamId FROM usersd WHERE id = '{inter.author.id}'").fetchone()
+        except:
             teamId = None
-        if banReason != None:
+        if banReason is not None:
             embed = disnake.Embed(
                 title=":no_entry_sign: Отказ в обслуживании",
                 description=f"Вам отказано в обслуживании!",
@@ -188,7 +179,7 @@ class profile(commands.Cog):
             except:
                 tag = None
             embed = disnake.Embed(description="Информация об участнике:", color=0x5865F2)
-            embed.set_author(name=f"Профиль {user.name}#{user.discriminator}", icon_url=user.avatar)
+            embed.set_author(name=f"Профиль {user.name}", icon_url=user.avatar)
             img = Image.new('RGBA', (900, 200), '#5865F2')
             avatar = str(user.avatar)[:-10]
             response = requests.get(avatar, stream=True)
@@ -197,23 +188,24 @@ class profile(commands.Cog):
             response = response.resize((160, 160), Image.ANTIALIAS)
             img.paste(response, (20, 20, 180, 180))
             idraw = ImageDraw.Draw(img)
-            name = user.name
-            disc = user.discriminator
-            headline = ImageFont.truetype('arial.ttf', size=36)
-            undertext = ImageFont.truetype('arial.ttf', size=24)
-            idraw.text((210, 50), f"{name}#{disc}", font=headline)
+            if user.nick is not None:
+                name = user.nick
+            else:
+                name = user.name
+            #disc = user.discriminator
+            headline = ImageFont.truetype('Pusia-Bold.ttf', size=36)
+            undertext = ImageFont.truetype('Pusia-Bold.ttf', size=24)
+            #idraw.text((210, 50), f"{name}#{disc}", font=headline)
+            idraw.text((210, 50), f"{name}", font=headline)
             # if teamId != None:
             #    idraw.text((180, 25), f"Команда {teamna}", font=undertext)
             img.save('user_card.png')
-
             embed.set_image(file=disnake.File("user_card.png"))
-
-            # dt =
             dr = user.created_at
             drts = str(dr.timestamp() * 1000)
             embed.add_field(name="Информация об аккаунте Discord:", value=f"Дата регистрации: <t:{drts[:-5]}:f>(<t:{drts[:-5]}:R>)", inline=True)
 
-            if tag != None:
+            if tag is not None:
                 try:
                     player = client.get_profile(tag)
                     embed.add_field(name="<:bsinfo:957947143153397760> Информация об аккаунте Brawl Stars:", value=f"Никнейм: `{player.name}`\nТэг: `{tag}`\nКоличество трофеев: `{player.trophies}/{player.highest_trophies}`\nБойцов: `{str(len(player.brawlers))}/55`", inline=False)
@@ -238,27 +230,12 @@ class profile(commands.Cog):
                 pass
             if banReason != None:
                 embed.add_field(name="<:isBlocked:957961543910326284> Причина блокировки доступа:", value=banReason, inline=True)
-            teamname0 = None
-            teamname1 = None
-            teamname2 = None
-            teamname3 = None
             try:
-                teamname0, = cur.execute(f"SELECT teamname FROM teams WHERE capitain = '{user.id}'")
-                teamname1, = cur.execute(f"SELECT teamname FROM teams WHERE member1 = '{user.id}'")
-                teamname2, = cur.execute(f"SELECT teamname FROM teams WHERE member2 = '{user.id}'")
-                teamname3, = cur.execute(f"SELECT teamname FROM teams WHERE member3 = '{user.id}'")
-            except:
-                pass
-            if teamname0 != None:
-                embed.add_field(name="<:chitty_members:924981240875069480> В команде:", value=f"{''.join(teamname0)}", inline=True)
-            elif teamname1 != None:
-                embed.add_field(name="<:chitty_members:924981240875069480> В команде:", value=f"{''.join(teamname1)}", inline=True)
-            elif teamname2 != None:
-                embed.add_field(name="<:chitty_members:924981240875069480> В команде:", value=f"{''.join(teamname2)}", inline=True)
-            elif teamname3 != None:
-                embed.add_field(name="<:chitty_members:924981240875069480> В команде:", value=f"{''.join(teamname3)}", inline=True)
-            # else:
-            #    embed.add_field(name="<:chitty_members:924981240875069480> В команде:", value="**Не в команде** <:abs_denide_mark:805317617840947200>", inline=True)            con.close()
+                teamname, = cur.execute(f"SELECT teamname FROM teams WHERE id = '{teamId}'").fetchone()
+                embed.add_field(name="В команде:", value=f"{teamname}", inline=True)
+            except Exception as e:
+                print(e)
+            con.close()
             embed.set_footer(text=f"ID участника: {user.id}")
             await inter.send(embed=embed, ephemeral=True)
 
