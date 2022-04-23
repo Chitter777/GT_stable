@@ -38,43 +38,37 @@ class devcog(commands.Cog):
     @commands.command()
     async def block(self, ctx, user: disnake.User, *, message: str):
         if ctx.author.id in developers:
-            if user.bot is True:
-                pass
-            elif ctx.author.id == user.id:
-                pass
-            else:
-                try:
-                    log = self.bot.get_channel(847748996302241792)
-                    con = sqlite3.connect('bsdb.db')
-                    cur = con.cursor()
-                    cur.execute("UPDATE usersd SET banReason == ? WHERE id == ?", (message, user.id))
-                    con.commit()
-                    con.close()
-                    embed = disnake.Embed(
-                        title="Блокировка пользователя. Успешно",
-                        description=f"К пользователю {user.mention} были применены штрафные санкции. Теперь он не сможет использовать бота",
-                        color=0xED4245
-                    )
-                    embed.add_field(name="Причина блокировки:", value=message)
-                    embed_log = disnake.Embed(
-                        title=f"Участник {user.name} был заблокирован.",
-                        color = 0xFEE75C
-                    )
-                    if user.avatar.url is not None:
-                            embed_log.set_thumbnail(url=user.avatar.url)
-                    embed_log.add_field(name="ID заблокированного:", value=f"`{user.id}`", inline=False)
-                    embed_log.add_field(name="Причина:", value=f"`{message}`")
-                    embed_log.add_field(name="Время блокировки:", value=f"<t:{int(time.time())}:F>(<t:{int(time.time())}:R>)")
-                    embed_log.set_footer(text=f"Модератор: {ctx.author} ({ctx.author.id})", icon_url=ctx.author.avatar.url)
-                    await log.send(embed=embed_log)
-                except Exception as e:
-                    embed = disnake.Embed(
-                        title="Блокировка пользователя. Провал",
-                        description=f"К пользователю {user.mention} не были применены штрафные санкции.",
-                        color=0xFEE75C
-                    )
-                    embed.add_field(name="Ошибка:", value=f"```{e}```")
-                await ctx.send(embed=embed)
+            log = self.bot.get_channel(847748996302241792)
+            con = sqlite3.connect('bsdb.db')
+            cur = con.cursor()
+            cur.execute("UPDATE usersd SET banReason == ? WHERE id == ?", (message, user.id))
+            con.commit()
+            con.close()
+            embed = disnake.Embed(
+                title="Блокировка пользователя. Успешно",
+                description=f"К пользователю {user.mention} были применены штрафные санкции. Теперь он не сможет использовать бота",
+                color=0xED4245
+            )
+            embed.add_field(name="Причина блокировки:", value=message)
+            embed_log = disnake.Embed(
+                title=f"Участник {user.name} был заблокирован.",
+                color = 0xFEE75C
+            )
+            if user.avatar.url is not None:
+                embed_log.set_thumbnail(url=user.avatar.url)
+                embed_log.add_field(name="ID заблокированного:", value=f"`{user.id}`", inline=False)
+                embed_log.add_field(name="Причина:", value=f"`{message}`")
+                embed_log.add_field(name="Время блокировки:", value=f"<t:{int(time.time())}:F>(<t:{int(time.time())}:R>)")
+                embed_log.set_footer(text=f"Модератор: {ctx.author} ({ctx.author.id})", icon_url=ctx.author.avatar.url)
+                await log.send(embed=embed_log)
+            except Exception as e:
+                embed = disnake.Embed(
+                    title="Блокировка пользователя. Провал",
+                    description=f"К пользователю {user.mention} не были применены штрафные санкции.",
+                    color=0xFEE75C
+                )
+                embed.add_field(name="Ошибка:", value=f"```{e}```")
+            await ctx.send(embed=embed)
 
     @commands.command()
     async def unblock(self, ctx, user: disnake.User):
