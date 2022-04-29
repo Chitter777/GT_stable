@@ -109,7 +109,9 @@ class profile(commands.Cog):
                 except:
                     embed.add_field(name=":warning: Проблемы с Brawl Stars API", value="Сейчас наблюдаются проблемы с BS API. Возможно, сейчас проводятся тенические работы.", inline=True)
             else:
-                pass
+                if inter.author = user:
+                    embed.add_field(name="Совет:", value="Вы можете привязать тег с помощью `/привязать`, чтобы получить доступк статистике", inline=False)
+
             if icons == '1000':
                 icons = "<:chitty_developer:924980296632397854>"
                 embed.add_field(name="Значки:", value=icons, inline=False)
@@ -213,7 +215,8 @@ class profile(commands.Cog):
                 except:
                     embed.add_field(name=":warning: Проблемы с Brawl Stars API", value="Сейчас наблюдаются проблемы с BS API. Возможно, сейчас проводятся тенические работы.", inline=True)
             else:
-                pass
+                if inter.author = user:
+                    embed.add_field(name="Совет:", value="Вы можете привязать тег с помощью `/привязать`, чтобы получить доступк статистике", inline=False)
             if icons == '1000':
                 icons = "<:chitty_developer:924980296632397854>"
                 embed.add_field(name="Значки:", value=icons, inline=False)
