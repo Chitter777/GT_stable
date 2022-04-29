@@ -14,13 +14,12 @@ class buttons(disnake.ui.View):
     async def main(self, button: disnake.ui.Button, interaction: disnake.MessageInteraction):
         embed = disnake.Embed(
             title = "Помощь с командами. Основные команды:",
-            description = """**/about** - информация о боте
-            **/link < #BS tag >** - привязать аккаунт Brawl Stars к аккаунту Discord
-            **/help** - справка обо всех командах
-            **/howtoreg** - выводит информацию о том, как стать участником турниров
-            **/unlink** - отвязать аккаунт Brawl Stars от аккаунта Discord
-            **/ping** - проверка задержки между серверами Discord и сервером бота
-            **/profile [ пинг/id участника | #BS tag ]** - статистика пользователя""",
+            description = """**/обомне** - информация о боте;
+**/отвязать** - отвязать аккаунт Brawl Stars от аккаунта Discord;
+**/пинг** - проверка задержки между серверами Discord и сервером бота:
+**/помощь** - справка обо всех командах;
+**/привязать < #BS tag >** - привязать аккаунт Brawl Stars к аккаунту Discord
+**/профиль [ пинг/id участника ]** - Просмотреть профиль участника""",
             colour=0x5865F2
         )
         embed.set_footer(text="CHIT SQD | (C) 2022 | Все права взломаны", icon_url = "https://cdn.discordapp.com/icons/794400771662676009/a_ab67786efe3ceccc550f4127e1992176.gif")
