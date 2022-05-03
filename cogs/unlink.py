@@ -49,7 +49,7 @@ class unlink(commands.Cog):
             embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/952169641801834546/955795973127434281/9884-blurple-delete.png")
             await inter.send(embed=embed, ephemeral = True)
             con.commit()
-            con.close
+            con.close()
 
 
 def setup(bot):
