@@ -4,14 +4,6 @@ import sqlite3
 import os.path
 from brawlstats import Client
 
-try:
-    client = Client('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjZjYzZkZDg2LWIxZjktNDdmYy04ZDk0LTU1YWNkNzU1YzE4MiIsImlhdCI6MTY0Nzk0ODE1Miwic3ViIjoiZGV2ZWxvcGVyL2NkNzI3NGQ2LTlhNzItOTk4Zi03MDM3LTM0OGI4NzY0MmQ3ZSIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiMTkzLjE0My4xMTkuMjM4IiwiMTkzLjE0My4xMTkuMjM3Il0sInR5cGUiOiJjbGllbnQifV19.eNDlAGv0krmr1PK6Vyo4nln1_JQI2aXKkACvDiq0EA9GA0BGvuWiiHJLAnXm9dH_Qe83uRXLug2X58VpE-XFQA')
-except:
-    try:
-        print("[WARN] Не удалось подключиться к BS API по основному токену. Пробуем другой...")
-        client = Client("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjVmYWEyMTM4LWExZjEtNDZmOS04MWZlLWU0ODYxZGVmMWI0MiIsImlhdCI6MTY0ODgxMTU1Nywic3ViIjoiZGV2ZWxvcGVyL2NkNzI3NGQ2LTlhNzItOTk4Zi03MDM3LTM0OGI4NzY0MmQ3ZSIsInNjb3BlcyI6WyJicmF3bHN0YXJzIl0sImxpbWl0cyI6W3sidGllciI6ImRldmVsb3Blci9zaWx2ZXIiLCJ0eXBlIjoidGhyb3R0bGluZyJ9LHsiY2lkcnMiOlsiMTg1LjIxMC4xNDIuODUiXSwidHlwZSI6ImNsaWVudCJ9XX0.0rT1Oi_wCuiu61w54dM-n2RJBWphrUF2LcWjF7X9Su3goqcK7yPtSYQxoLsEPAGRlZmhaj2PyfHJ5SM_G-YVVw")
-    except:
-        print("[ERROR] Не удалось подключиться к BS API")
 
 class unlink(commands.Cog):
     def __init__(self, bot):
