@@ -3,7 +3,7 @@ from disnake.ext import commands
 import sqlite3
 import time
 
-developers = [450229150217797633, 403829627753070603]
+developers = (450229150217797633, 403829627753070603,)
 galka = 845550813119512589
 
 
@@ -11,17 +11,25 @@ class devcog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print("[LOAD] Ког devcog загружен успено!")
+
     @commands.command()
-    async def icons(self, ctx, user: disnake.User, icons):
+    async def icons(self, ctx, user: disnake.User, icons = "0000"):
         if ctx.author.id in developers:
             con = sqlite3.connect('bsdb.db')
             cur = con.cursor()
             try:
                 cur.execute("UPDATE usersd SET icons == ? WHERE id == ?", (icons, user.id))
                 con.commit()
+                if icons != "0000":
+                    desk = f"У пользователя {user.mention} была обновлена информация о значках."
+                else:
+                    desk = f"Все значки {user.mention} были удалены."
                 embed = disnake.Embed(
                     title="Обновление статуса значков. Успешно",
-                    description=f"У участника {user.mention} была обновлена информация о значках.",
+                    description=desk,
                     color=0x57F287
                 )
             except Exception as e:
